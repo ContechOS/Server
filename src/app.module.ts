@@ -6,10 +6,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { Config } from './config/Config';
 
 @Module({
-  imports: [UsersModule, AuthModule, PassportModule,
+  imports: [
+    UsersModule,
+    AuthModule,
+    PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: Config.SESSION_EXPIRES_AFTER_SECONDS },
-    }),],
+    }),
+  ],
 })
 export class AppModule {}
