@@ -6,4 +6,6 @@ export class Config {
    * 1 day
    */
   public static readonly SESSION_EXPIRES_AFTER_SECONDS = 60 * 60 * 24;
+
+  public static readonly PASSWORD_HASH_ROUNDS = 15;
 }

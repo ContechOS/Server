@@ -11,7 +11,6 @@ export class User {
   @Field()
   email: string;
 
-  @Field()
   @HideField()
   password: string;
 
