@@ -51,8 +51,6 @@ export class UsersService {
       throw new InternalServerErrorException();
     }
 
-    console.log(user);
-
     return new User(user as unknown as User);
   }
 
@@ -65,13 +63,11 @@ export class UsersService {
       { id },
     );
 
-    const user = result.records.at(0);
+    const user = result.records.at(0)?.get('u').properties;
 
     if (!user) {
       return null;
     }
-
-    console.log(user);
 
     return new User(user as unknown as User);
   }
@@ -85,13 +81,11 @@ export class UsersService {
       { email },
     );
 
-    const user = result.records.at(0);
+    const user = result.records.at(0)?.get('u').properties;
 
     if (!user) {
       return null;
     }
-
-    console.log(user);
 
     return new User(user as unknown as User);
   }
