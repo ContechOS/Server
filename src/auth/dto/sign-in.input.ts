@@ -4,7 +4,7 @@ import { Config } from 'src/config/Config';
 
 @InputType()
 export class SignInInput {
-  @Field(() => String)
+  @Field()
   @IsEmail()
   @IsNotEmpty()
   email: string;

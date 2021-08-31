@@ -4,17 +4,17 @@ import { Config } from 'src/config/Config';
 
 @InputType()
 export class SignUpInput {
-  @Field(() => String)
+  @Field()
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @Field(() => String)
+  @Field()
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @Field(() => String)
+  @Field()
   @IsString()
   @IsNotEmpty()
   @MinLength(Config.PASSWORD_MIN_LENGTH)
