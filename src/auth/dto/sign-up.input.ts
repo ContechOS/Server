@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Config } from 'src/config/Config';
 
 @InputType()
-export class SignInInput {
+export class SignUpInput {
   @Field(() => String)
   @IsString()
   @IsNotEmpty()
