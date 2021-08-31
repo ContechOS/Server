@@ -37,8 +37,8 @@ export class UsersService {
         name: $name,
         email: $email,
         password: $password,
-        createdAt: $createdAt,
-        updatedAt: $updatedAt
+        createdAt: datetime(),
+        updatedAt: datetime()
       })
       RETURN u
       `,
@@ -47,8 +47,6 @@ export class UsersService {
         name: createUserInput.name,
         email: createUserInput.email,
         password,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       },
     );
 
@@ -75,6 +73,8 @@ export class UsersService {
     if (!user) {
       return null;
     }
+
+    console.log(user);
 
     return new User(user as unknown as User);
   }

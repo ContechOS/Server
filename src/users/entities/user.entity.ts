@@ -1,4 +1,6 @@
 import { ObjectType, Field, HideField, ID } from '@nestjs/graphql';
+import { DateTime } from 'neo4j-driver';
+import { Utilities } from 'src/utilities/Utilities';
 
 @ObjectType()
 export class User {
@@ -26,8 +28,8 @@ export class User {
       name: data.name,
       email: data.email,
       password: data.password,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
+      createdAt: Utilities.neo4jDateTimeToDateObject(data.createdAt as unknown as DateTime),
+      updatedAt: Utilities.neo4jDateTimeToDateObject(data.updatedAt as unknown as DateTime),
     });
   }
 }
