@@ -33,13 +33,14 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   updateUser(
     @CurrentUser() user: User,
+    @Args('id', { type: () => String }) id: string,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
-    if (user.id !== updateUserInput.id) {
+    if (user.id !== id) {
       throw new ForbiddenException();
     }
 
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+    return this.usersService.update(id, updateUserInput);
   }
 
   @Mutation(() => User)

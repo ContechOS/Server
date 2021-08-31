@@ -2,6 +2,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
@@ -56,7 +57,7 @@ export class UsersService {
       throw new InternalServerErrorException();
     }
 
-    return new User(user as unknown as User);
+    return new User(user);
   }
 
   async findOne(id: string): Promise<User | null> {
@@ -74,7 +75,7 @@ export class UsersService {
       return null;
     }
 
-    return new User(user as unknown as User);
+    return new User(user);
   }
 
   async findOneByEmail(email: string): Promise<User | null> {
@@ -92,7 +93,7 @@ export class UsersService {
       return null;
     }
 
-    return new User(user as unknown as User);
+    return new User(user);
   }
 
   async existsByEmail(email: string): Promise<boolean> {
@@ -101,11 +102,43 @@ export class UsersService {
     return user !== null;
   }
 
-  update(id: string, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserInput: UpdateUserInput): Promise<User> {
+    const user = await this.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (updateUserInput.password) {
+      updateUserInput.password = await hash(updateUserInput.password, Config.PASSWORD_HASH_ROUNDS);
+    }
+
+    const result = await this.neo4jService.read(
+      `
+      MATCH (u:User { id: $id })
+      SET u += {
+
+      }
+      RETURN u
+      `,
+      {
+        id,
+        name: updateUserInput.name ?? user.name,
+        email: updateUserInput.email ?? user.email,
+        password: updateUserInput.password ?? user.password,
+      },
+    );
+
+    const newUser = result.records.at(0)?.get('u').properties;
+
+    if (!newUser) {
+      throw new InternalServerErrorException();
+    }
+
+    return new User(newUser);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<void> {
+    // TODO
   }
 }
