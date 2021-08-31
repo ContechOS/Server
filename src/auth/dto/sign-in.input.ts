@@ -9,6 +9,7 @@ export class SignInInput {
   @IsNotEmpty()
   email: string;
 
+  @Field()
   @IsString()
   @IsNotEmpty()
   @MinLength(Config.PASSWORD_MIN_LENGTH)

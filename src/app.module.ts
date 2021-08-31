@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { Config } from './config/Config';
 import { Neo4jConfig, Neo4jModule } from 'nest-neo4j';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi from 'joi';
@@ -33,16 +30,6 @@ import { GraphQLModule } from '@nestjs/graphql';
           port: configService.get('NEO4J_PORT')!,
           username: configService.get('NEO4J_USER')!,
           password: configService.get('NEO4J_PASS')!,
-        };
-      },
-    }),
-    PassportModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        return {
-          secret: configService.get('JWT_SECRET'),
-          signOptions: { expiresIn: Config.SESSION_EXPIRES_AFTER_SECONDS },
         };
       },
     }),
