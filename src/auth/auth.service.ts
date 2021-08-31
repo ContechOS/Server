@@ -27,7 +27,7 @@ export class AuthService {
 
     return new Auth({
       user,
-      token: randomBytes(30).toString("hex"),
+      token: randomBytes(30).toString('hex'),
     });
   }
 }
