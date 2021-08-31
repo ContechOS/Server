@@ -18,7 +18,10 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'user' })
   @UseGuards(JwtAuthGuard)
-  async findOne(@CurrentUser() user: User, @Args('id', { type: () => String }) id: string) {
+  async findOne(
+    @CurrentUser() user: User,
+    @Args('id', { type: () => String }) id: string,
+  ) {
     if (user.id !== id) {
       throw new ForbiddenException();
     }
@@ -28,7 +31,10 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(JwtAuthGuard)
-  updateUser(@CurrentUser() user: User, @Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  updateUser(
+    @CurrentUser() user: User,
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+  ) {
     if (user.id !== updateUserInput.id) {
       throw new ForbiddenException();
     }
@@ -38,7 +44,10 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(JwtAuthGuard)
-  removeUser(@CurrentUser() user: User, @Args('id', { type: () => String }) id: string) {
+  removeUser(
+    @CurrentUser() user: User,
+    @Args('id', { type: () => String }) id: string,
+  ) {
     if (user.id !== id) {
       throw new ForbiddenException();
     }
