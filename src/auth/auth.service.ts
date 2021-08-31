@@ -15,7 +15,10 @@ export class AuthService {
       return null;
     }
 
-    const isPasswordCorrect = await compare(signInInput.password, user.password);
+    const isPasswordCorrect = await compare(
+      signInInput.password,
+      user.password,
+    );
 
     if (!isPasswordCorrect) {
       return null;
