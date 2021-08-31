@@ -111,7 +111,10 @@ export class UsersService {
     }
 
     if (updateUserInput.password) {
-      updateUserInput.password = await hash(updateUserInput.password, Config.PASSWORD_HASH_ROUNDS);
+      updateUserInput.password = await hash(
+        updateUserInput.password,
+        Config.PASSWORD_HASH_ROUNDS,
+      );
     }
 
     const result = await this.neo4jService.write(
