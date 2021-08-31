@@ -74,8 +74,6 @@ export class UsersService {
       return null;
     }
 
-    console.log(user);
-
     return new User(user as unknown as User);
   }
 
