@@ -7,9 +7,13 @@ import { Config } from './config/Config';
 import { Neo4jConfig, Neo4jModule } from 'nest-neo4j';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi from 'joi';
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
