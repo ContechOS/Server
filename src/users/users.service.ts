@@ -119,7 +119,8 @@ export class UsersService {
       SET u += {
         name: $name,
         email: $email,
-        password: $password
+        password: $password,
+        updatedAt: datetime()
       }
       RETURN u
       `,
