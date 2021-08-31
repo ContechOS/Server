@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { randomBytes } from 'crypto';
 import { UsersService } from 'src/users/users.service';
 import { SignInInput } from './dto/sign-in.input';
 import { Auth } from './entities/auth.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
+  ) {}
 
   async signIn(signInInput: SignInInput): Promise<Auth | null> {
     const user = await this.usersService.findOneByEmail(signInInput.email);
@@ -25,9 +28,8 @@ export class AuthService {
       return null;
     }
 
-    return new Auth({
-      user,
-      token: randomBytes(30).toString("hex"),
-    });
+    const token = await this.jwtService.signAsync({ sub: user.id });
+
+    return new Auth({ user, token });
   }
 }
