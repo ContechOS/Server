@@ -28,8 +28,12 @@ export class User {
       name: data.name,
       email: data.email,
       password: data.password,
-      createdAt: Utilities.neo4jDateTimeToDateObject(data.createdAt as unknown as DateTime),
-      updatedAt: Utilities.neo4jDateTimeToDateObject(data.updatedAt as unknown as DateTime),
+      createdAt: Utilities.neo4jDateTimeToDateObject(
+        data.createdAt as unknown as DateTime,
+      ),
+      updatedAt: Utilities.neo4jDateTimeToDateObject(
+        data.updatedAt as unknown as DateTime,
+      ),
     });
   }
 }
