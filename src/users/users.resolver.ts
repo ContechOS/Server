@@ -3,8 +3,9 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { NotFoundException, UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -17,11 +18,9 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'user' })
   @UseGuards(JwtAuthGuard)
-  async findOne(@Args('id', { type: () => String }) id: string) {
-    const user = await this.usersService.findOne(id);
-
-    if (!user) {
-      throw new NotFoundException();
+  async findOne(@CurrentUser() user: User, @Args('id', { type: () => String }) id: string) {
+    if (user.id !== id) {
+      throw new ForbiddenException();
     }
 
     return user;
@@ -29,13 +28,21 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(JwtAuthGuard)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  updateUser(@CurrentUser() user: User, @Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    if (user.id !== updateUserInput.id) {
+      throw new ForbiddenException();
+    }
+
     return this.usersService.update(updateUserInput.id, updateUserInput);
   }
 
   @Mutation(() => User)
   @UseGuards(JwtAuthGuard)
-  removeUser(@Args('id', { type: () => String }) id: string) {
+  removeUser(@CurrentUser() user: User, @Args('id', { type: () => String }) id: string) {
+    if (user.id !== id) {
+      throw new ForbiddenException();
+    }
+
     return this.usersService.remove(id);
   }
 }
