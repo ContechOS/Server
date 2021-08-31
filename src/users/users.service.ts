@@ -7,6 +7,7 @@ import {
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { Neo4jService } from 'nest-neo4j/dist';
+import { GraphQLDeleteResult } from 'src/common/graphql/types/delete-result.graphql.type';
 import { Config } from 'src/config/Config';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -141,13 +142,21 @@ export class UsersService {
     return new User(newUser);
   }
 
-  async remove(id: string): Promise<void> {
-    await this.neo4jService.write(
-      `
-      MATCH (u:User { id: $id })
-      DELETE u
-      `,
-      { id },
-    );
+  async remove(id: string): Promise<GraphQLDeleteResult> {
+    let success = true;
+
+    try {
+      await this.neo4jService.write(
+        `
+        MATCH (u:User { id: $id })
+        DELETE u
+        `,
+        { id },
+      );
+    } catch {
+      success = false;
+    }
+
+    return new GraphQLDeleteResult({ success });
   }
 }

@@ -6,6 +6,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { GraphQLDeleteResult } from 'src/common/graphql/types/delete-result.graphql.type';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -43,7 +44,7 @@ export class UsersResolver {
     return this.usersService.update(id, updateUserInput);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => GraphQLDeleteResult)
   @UseGuards(JwtAuthGuard)
   removeUser(
     @CurrentUser() user: User,
