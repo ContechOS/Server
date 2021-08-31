@@ -20,4 +20,15 @@ export class User {
 
   @Field()
   updatedAt: Date;
+
+  constructor (data: User) {
+    Object.assign(this, {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    });
+  }
 }
