@@ -20,7 +20,7 @@ export class User {
   @Field()
   updatedAt: Date;
 
-  constructor (data: User) {
+  constructor(data: User) {
     Object.assign(this, {
       id: data.id,
       name: data.name,

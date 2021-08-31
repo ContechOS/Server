@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
 import { Neo4jService } from 'nest-neo4j/dist';
@@ -9,19 +13,22 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor (private readonly neo4jService: Neo4jService) {}
+  constructor(private readonly neo4jService: Neo4jService) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     if (await this.existsByEmail(createUserInput.email)) {
       throw new ConflictException([
         {
-          field: "email",
-          message: "A user with this email already exists",
+          field: 'email',
+          message: 'A user with this email already exists',
         },
       ]);
     }
 
-    const password = await hash(createUserInput.password, Config.PASSWORD_HASH_ROUNDS);
+    const password = await hash(
+      createUserInput.password,
+      Config.PASSWORD_HASH_ROUNDS,
+    );
 
     const result = await this.neo4jService.write(
       `
