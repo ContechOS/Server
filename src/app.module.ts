@@ -37,7 +37,7 @@ import Joi from 'joi';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
-          secret: configService.get("JWT_SECRET"),
+          secret: configService.get('JWT_SECRET'),
           signOptions: { expiresIn: Config.SESSION_EXPIRES_AFTER_SECONDS },
         };
       },
