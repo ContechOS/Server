@@ -113,11 +113,13 @@ export class UsersService {
       updateUserInput.password = await hash(updateUserInput.password, Config.PASSWORD_HASH_ROUNDS);
     }
 
-    const result = await this.neo4jService.read(
+    const result = await this.neo4jService.write(
       `
       MATCH (u:User { id: $id })
       SET u += {
-
+        name: $name,
+        email: $email,
+        password: $password
       }
       RETURN u
       `,
