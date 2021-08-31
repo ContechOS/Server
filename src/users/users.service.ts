@@ -141,6 +141,12 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    // TODO
+    await this.neo4jService.write(
+      `
+      MATCH (u:User { id: $id })
+      DELETE u
+      `,
+      { id },
+    );
   }
 }
