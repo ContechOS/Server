@@ -5,13 +5,23 @@ import { Config } from 'src/config/Config';
 @InputType()
 export class SignInInput {
   @Field()
-  @IsEmail()
-  @IsNotEmpty()
+  @IsEmail(undefined, {
+    message: "email: The email is not valid",
+  })
+  @IsNotEmpty({
+    message: "email: The email cannot be empty",
+  })
   email: string;
 
   @Field()
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(Config.PASSWORD_MIN_LENGTH)
+  @IsString({
+    message: "password: The password must be a string",
+  })
+  @IsNotEmpty({
+    message: "password: The password cannot be empty",
+  })
+  @MinLength(Config.PASSWORD_MIN_LENGTH, {
+    message: `password: The password must be at least ${Config.PASSWORD_MIN_LENGTH} characters long`,
+  })
   password: string;
 }
