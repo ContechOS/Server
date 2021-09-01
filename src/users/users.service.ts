@@ -20,10 +20,7 @@ export class UsersService {
   async create(createUserInput: CreateUserInput): Promise<User> {
     if (await this.existsByEmail(createUserInput.email)) {
       throw new ConflictException([
-        {
-          field: 'email',
-          message: 'A user with this email already exists',
-        },
+        "email: A user with this email already exists",
       ]);
     }
 
