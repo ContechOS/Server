@@ -12,7 +12,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Query(() => User, { name: "currentUser" })
+  @Query(() => User, { name: 'currentUser' })
   @UseGuards(JwtAuthGuard)
   currentUser(@CurrentUser() user: User) {
     return user;
