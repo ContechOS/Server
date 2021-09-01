@@ -28,8 +28,8 @@ Run
 npm run start:dev
 ```
 
-This will start a local server on `http://localhost:3000`.
+This will start a local server on [`http://localhost:3000`](http://localhost:3000).
 
 #### GraphQL Playground
 
-Once the server has been started a GraphQL Playground will be available at `http://localhost:3000/graphql`.
+Once the server has been started a GraphQL Playground will be available at [`http://localhost:3000/graphql`](http://localhost:3000/graphql).
