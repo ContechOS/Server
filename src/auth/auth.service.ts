@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
@@ -17,7 +21,7 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException([
-        "email: A user with this email does not exist",
+        'email: A user with this email does not exist',
       ]);
     }
 
@@ -27,9 +31,7 @@ export class AuthService {
     );
 
     if (!isPasswordCorrect) {
-      throw new BadRequestException([
-        "password: The password is not correct",
-      ]);
+      throw new BadRequestException(['password: The password is not correct']);
     }
 
     const token = await this.jwtService.signAsync({ sub: user.id });
