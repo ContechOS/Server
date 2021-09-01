@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { Auth } from './entities/auth.entity';
 import { SignInInput } from './dto/sign-in.input';
 import { UseGuards } from '@nestjs/common';
-import { LocalAuthGuard } from './guards/local.guard';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { User } from 'src/users/entities/user.entity';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -19,7 +18,6 @@ export class AuthResolver {
   }
 
   @Mutation(() => Auth)
-  @UseGuards(LocalAuthGuard)
   signIn(@Args('signInInput') signInInput: SignInInput) {
     return this.authService.signIn(signInInput);
   }
